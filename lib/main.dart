@@ -24,6 +24,7 @@ class CalendarPage extends StatefulWidget {
 }
 
 class _CalendarPageState extends State<CalendarPage> {
+  bool _alertWidgetVisible = true;
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime? _selectedDay;
@@ -120,45 +121,56 @@ class _CalendarPageState extends State<CalendarPage> {
                     ),
                   ),
                   Expanded(
-                    child: Container(
-                      padding: EdgeInsets.fromLTRB(50, 8, 50, 0),
-                      decoration: BoxDecoration(
-                        color: Color(0xff7c94b6),
-                        borderRadius: BorderRadius.circular(100),
-                      ),
-                      child: Column(
-                        children: [
-                          Text(
-                            "1 HR 36 MIN",
-                            style: TextStyle(
-                              fontSize: 48,
-                              fontFamily: 'Inter-SemiBold',
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(0, 0),
-                                  blurRadius: 2,
-                                  color: Color.fromARGB(100, 0, 0, 0),
-                                ),
-                              ],
-                            ),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _alertWidgetVisible = !_alertWidgetVisible;
+                        });
+                      },
+                      child: AnimatedOpacity(
+                        opacity: _alertWidgetVisible ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 150),
+                        child: Container(
+                          padding: EdgeInsets.fromLTRB(50, 8, 50, 0),
+                          decoration: BoxDecoration(
+                            color: Color(0xff7c94b6),
+                            borderRadius: BorderRadius.circular(100),
                           ),
-                          Text(
-                            "UNTIL NEXT MEETING",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Inter',
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(0, 0),
-                                  blurRadius: 2,
-                                  color: Color.fromARGB(100, 0, 0, 0),
+                          child: Column(
+                            children: [
+                              Text(
+                                "1 HR 36 MIN",
+                                style: TextStyle(
+                                  fontSize: 48,
+                                  fontFamily: 'Inter-SemiBold',
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0, 0),
+                                      blurRadius: 2,
+                                      color: Color.fromARGB(100, 0, 0, 0),
+                                    ),
+                                  ],
                                 ),
-                              ],
-                            ),
+                              ),
+                              Text(
+                                "UNTIL NEXT MEETING",
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontFamily: 'Inter',
+                                  color: Colors.white,
+                                  shadows: <Shadow>[
+                                    Shadow(
+                                      offset: Offset(0, 0),
+                                      blurRadius: 2,
+                                      color: Color.fromARGB(100, 0, 0, 0),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
