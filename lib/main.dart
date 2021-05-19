@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'dart:collection';
+import './utils.dart';
 
 void main() {
-  runApp(MyApp());
+  initializeDateFormatting().then((_) => runApp(MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -29,17 +32,38 @@ class _CalendarPageState extends State<CalendarPage> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
   DateTime? _selectedDay;
   var formattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
-  var formattedDate =
-      DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
+  var formattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
 
   Color blueColor = const Color(0xFF67C8FF);
   Color greyColor = const Color(0xFF555555);
 
-  @override
-  void initState() {
-    super.initState();
 
-    _selectedDay = _focusedDay;
+
+  final ValueNotifier<List<Event>> _selectedEvents = ValueNotifier([]);
+
+  // Using a `LinkedHashSet` is recommended due to equality comparison override
+  final Set<DateTime> _selectedDays = LinkedHashSet<DateTime>(
+    equals: isSameDay,
+    hashCode: getHashCode,
+  );
+
+  @override
+  void dispose() {
+    _selectedEvents.dispose();
+    super.dispose();
+  }
+
+  List<Event> _getEventsForDay(DateTime day) {
+    // Implementation example
+    return kEvents[day] ?? [];
+  }
+
+  List<Event> _getEventsForDays(Set<DateTime> days) {
+    // Implementation example
+    // Note that days are in selection order (same applies to events)
+    return [
+      for (final d in days) ..._getEventsForDay(d),
+    ];
   }
 
   void _onDaySelected(DateTime selectedDay, DateTime focusedDay) {
@@ -48,7 +72,26 @@ class _CalendarPageState extends State<CalendarPage> {
         _selectedDay = selectedDay;
         _focusedDay = focusedDay;
       });
+
+      _selectedEvents.value = _getEventsForDay(selectedDay);
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _selectedDay = _focusedDay;
+
+  }
+
+  List<Event> _getEventsForRange(DateTime start, DateTime end) {
+    // Implementation example
+    final days = daysInRange(start, end);
+
+    return [
+      for (final d in days) ..._getEventsForDay(d),
+    ];
   }
 
   @override
@@ -85,7 +128,6 @@ class _CalendarPageState extends State<CalendarPage> {
                   Container(
                     child:
                     nextMeeting(),
-
                   ),
                 ],
               ),
@@ -114,6 +156,32 @@ class _CalendarPageState extends State<CalendarPage> {
         child: ListView(
           padding: EdgeInsets.only(right: 10),
           children: [
+            Container(
+              child: ValueListenableBuilder<List<Event>>(
+                valueListenable: _selectedEvents,
+                builder: (context, value, _) {
+                  return ListView.builder(
+                    itemCount: value.length,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12.0,
+                          vertical: 4.0,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(),
+                          borderRadius: BorderRadius.circular(12.0),
+                        ),
+                        child: ListTile(
+                          onTap: () => print('${value[index]}'),
+                          title: Text('${value[index]}'),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
             AgendaItem(selectedDay: _selectedDay),
             Divider(color: Colors.transparent),
             AgendaItem(selectedDay: _selectedDay),
@@ -132,10 +200,11 @@ class _CalendarPageState extends State<CalendarPage> {
 
   Widget calendarView() {
     return TableCalendar(
-      firstDay: DateTime.utc(2010, 10, 16),
-      lastDay: DateTime.utc(2030, 3, 14),
+      firstDay: kFirstDay,
+      lastDay: kLastDay,
       focusedDay: _focusedDay,
       calendarFormat: _calendarFormat,
+      startingDayOfWeek: StartingDayOfWeek.monday,
       availableCalendarFormats: const {
         CalendarFormat.month: 'Month',
         CalendarFormat.week: 'Week'
@@ -143,9 +212,21 @@ class _CalendarPageState extends State<CalendarPage> {
       selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
       onDaySelected: _onDaySelected,
       calendarStyle: const CalendarStyle(
-        isTodayHighlighted: false,
+        isTodayHighlighted: true,
+        outsideDaysVisible: false,
       ),
       rowHeight: 50,
+      eventLoader: _getEventsForDay,
+      onFormatChanged: (format) {
+        if (_calendarFormat != format) {
+          setState(() {
+            _calendarFormat = format;
+          });
+        }
+      },
+      onPageChanged: (focusedDay) {
+        _focusedDay = focusedDay;
+      },
       calendarBuilders: CalendarBuilders(
         markerBuilder:
             (BuildContext context, DateTime date, List<dynamic> events) {
@@ -224,20 +305,6 @@ class _CalendarPageState extends State<CalendarPage> {
           size: 30,
         ),
       ),
-      eventLoader: (day) {
-        if (day.weekday == DateTime.monday) {
-          return [Text('Cyclic event')];
-        }
-
-        return [];
-      },
-      onFormatChanged: (format) {
-        if (_calendarFormat != format) {
-          setState(() {
-            _calendarFormat = format;
-          });
-        }
-      },
     );
   }
 }
