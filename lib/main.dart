@@ -153,46 +153,20 @@ class _CalendarPageState extends State<CalendarPage> {
         margin: const EdgeInsets.only(top: 30),
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         color: const Color(0xFFF2F2F2),
-        child: ListView(
-          padding: EdgeInsets.only(right: 10),
-          children: [
-            Container(
-              child: ValueListenableBuilder<List<Event>>(
-                valueListenable: _selectedEvents,
-                builder: (context, value, _) {
-                  return ListView.builder(
-                    itemCount: value.length,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        margin: const EdgeInsets.symmetric(
-                          horizontal: 12.0,
-                          vertical: 4.0,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(),
-                          borderRadius: BorderRadius.circular(12.0),
-                        ),
-                        child: ListTile(
-                          onTap: () => print('${value[index]}'),
-                          title: Text('${value[index]}'),
-                        ),
-                      );
-                    },
+        child: Container(
+          child: ValueListenableBuilder<List<Event>>(
+            valueListenable: _selectedEvents,
+            builder: (context, value, _) {
+              return ListView.builder(
+                itemCount: value.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    child: eventItem(),
                   );
                 },
-              ),
-            ),
-            AgendaItem(selectedDay: _selectedDay),
-            Divider(color: Colors.transparent),
-            AgendaItem(selectedDay: _selectedDay),
-            Divider(color: Colors.transparent),
-            AgendaItem(selectedDay: _selectedDay),
-            Divider(color: Colors.transparent),
-            AgendaItem(selectedDay: _selectedDay),
-            Divider(color: Colors.transparent),
-            AgendaItem(selectedDay: _selectedDay),
-            Divider(color: Colors.transparent),
-          ],
+              );
+            },
+          ),
         ),
       ),
     );
@@ -571,6 +545,7 @@ class eventItem extends StatelessWidget {
           ),
         ],
       ),
+
     );
   }
 }
