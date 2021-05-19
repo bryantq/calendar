@@ -5,7 +5,9 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'dart:collection';
 import './utils.dart';
 import 'dart:async';
-
+import 'package:flutter/services.dart';
+import 'package:googleapis_auth/googleapis_auth.dart';
+//import 'package:googleapis/calendar/v3.dart';
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -15,6 +17,11 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return MaterialApp(
       title: 'Calendar Dashboard',
       theme: ThemeData(fontFamily: 'Inter'),
@@ -389,7 +396,8 @@ class timeAlert extends StatelessWidget {
       opacity: _alertWidgetVisible ? 1.0 : 0.0,
       duration: Duration(milliseconds: 150),
       child: Container(
-        padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
+        margin: const EdgeInsets.only(bottom: 20),
+        padding: EdgeInsets.fromLTRB(70, 15, 70, 15),
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 0, 220, 194),
           borderRadius: BorderRadius.circular(100),
@@ -399,14 +407,14 @@ class timeAlert extends StatelessWidget {
             Text(
               "1 HR 36 MIN",
               style: TextStyle(
-                fontSize: 48,
+                fontSize: 64,
                 fontFamily: 'Inter-SemiBold',
                 color: Colors.white,
                 shadows: <Shadow>[
                   Shadow(
                     offset: Offset(0, 0),
-                    blurRadius: 2,
-                    color: Color.fromARGB(100, 0, 0, 0),
+                    blurRadius: 1,
+                    color: Color.fromARGB(150, 0, 0, 0),
                   ),
                 ],
               ),
@@ -414,13 +422,13 @@ class timeAlert extends StatelessWidget {
             Text(
               "UNTIL NEXT MEETING",
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 22,
                 fontFamily: 'Inter',
                 color: Colors.white,
                 shadows: <Shadow>[
                   Shadow(
                     offset: Offset(0, 0),
-                    blurRadius: 2,
+                    blurRadius: 1,
                     color: Color.fromARGB(100, 0, 0, 0),
                   ),
                 ],
@@ -448,13 +456,13 @@ class timeDisplay extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
+          padding: EdgeInsets.fromLTRB(0, 80, 0, 10),
           child: Text(
             formattedTime,
             style: TextStyle(
-              fontSize: 96,
+              fontSize: 128,
               fontFamily: 'Inter-SemiBold',
-              letterSpacing: -5,
+              letterSpacing: -3,
               color: Colors.white,
               shadows: <Shadow>[
                 Shadow(
@@ -470,7 +478,7 @@ class timeDisplay extends StatelessWidget {
           formattedDate,
           style: TextStyle(
             fontFamily: 'Inter-ExtraLight',
-            fontSize: 20,
+            fontSize: 28,
             color: Colors.white,
             shadows: <Shadow>[
               Shadow(
@@ -486,7 +494,7 @@ class timeDisplay extends StatelessWidget {
           child:Text(
               "You have 2 meetings left today!",
               style: TextStyle(
-                fontSize: 14,
+                fontSize: 18,
                 color: Colors.white38,
               ),
             ),
@@ -507,10 +515,14 @@ class eventItem extends StatefulWidget{
   _eventItemState createState() => _eventItemState();
 }
 class _eventItemState extends State<eventItem> {
+  var typeColor;
   @override
   Widget build(BuildContext context) {
+    if (widget.eventType == "Personal") { typeColor = Color.fromARGB(255, 146, 223, 173); }
+    if (widget.eventType == "Work") { typeColor = Color.fromARGB(255, 103, 200, 225); }
     return Container(
       color: Colors.white,
+      margin: const EdgeInsets.only(right: 10),
       padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -531,12 +543,12 @@ class _eventItemState extends State<eventItem> {
                 padding: const EdgeInsets.symmetric(
                     horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF92E0AD),
+                  color: typeColor,
                   borderRadius: BorderRadius.circular(5),
                 ),
                 child: Text(
                   widget.eventType,
-                  style: TextStyle(fontSize: 10, color: Colors.white),
+                  style: TextStyle(fontSize: 14, color: Colors.white),
                 ),
               ),
             ],
@@ -545,7 +557,7 @@ class _eventItemState extends State<eventItem> {
            Text(
             widget.eventTitle,
             style: TextStyle(
-              fontSize: 18,
+              fontSize: 22,
               color: Colors.black,
               letterSpacing: -1,
             ),
@@ -554,7 +566,7 @@ class _eventItemState extends State<eventItem> {
            Text(
             widget.eventLocation,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 18,
               letterSpacing: -0.3,
               fontFamily: 'Inter-Light',
               color: Color.fromARGB(255, 155, 165, 170),
@@ -564,7 +576,7 @@ class _eventItemState extends State<eventItem> {
            Text(
             widget.eventDesc,
             style: TextStyle(
-              fontSize: 14,
+              fontSize: 18,
               letterSpacing: -0.3,
               fontFamily: 'Inter-Light',
               color: Color.fromARGB(255, 155, 165, 170),
