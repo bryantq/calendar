@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
   table_calendar: 3.0.0
   intl: 0.17.0
 

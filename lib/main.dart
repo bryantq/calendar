@@ -4,6 +4,8 @@ import 'package:intl/intl.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'dart:collection';
 import './utils.dart';
+import 'dart:async';
+
 
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
@@ -14,7 +16,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Calendar Dashboard',
       theme: ThemeData(fontFamily: 'Inter'),
       home: CalendarPage(),
     );
@@ -81,10 +83,24 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   void initState() {
-    super.initState();
-
+    final String formattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
+    final String formattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
     _selectedDay = _focusedDay;
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
+    super.initState();
+  }
+  void _getTime() {
+    final DateTime now = DateTime.now();
+    final String newformattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
+    final String newformattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
+    setState(() {
+      formattedTime = newformattedTime;
+      formattedDate = newformattedDate;
+    });
+  }
 
+  String _formatDateTime(DateTime dateTime) {
+    return DateFormat('MM/dd/yyyy hh:mm:ss').format(dateTime);
   }
 
   List<Event> _getEventsForRange(DateTime start, DateTime end) {
