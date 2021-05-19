@@ -5,13 +5,8 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'dart:collection';
 import './utils.dart';
 import 'dart:async';
-
 import 'package:flutter/services.dart';
-import 'package:googleapis_auth/googleapis_auth.dart';
-//import 'package:googleapis/calendar/v3.dart';
-
 import 'dart:convert' show json;
-
 import "package:http/http.dart" as http;
 import 'package:google_sign_in/google_sign_in.dart';
 
