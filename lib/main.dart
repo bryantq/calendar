@@ -84,13 +84,25 @@ class _CalendarPageState extends State<CalendarPage> {
                   ),
                   Expanded(
                     flex: 2,
-                    child: Text(
-                      "Next Meeting Placeholder",
-                      style: TextStyle(
-                        fontSize: 14,
+                    child:
+                    Container (
+                      margin: EdgeInsets.all(20),
+                      padding: EdgeInsets.all(20),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Color.fromARGB(255, 247, 247, 247),
+                          width: 10,
+                          ),
                         color: Colors.white,
                       ),
+                      child:Text(
+                        "Next Meeting Placeholder",
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.black,
+                        ),
+                      ),
                     ),
+
                   ),
                 ],
               ),
@@ -254,7 +266,7 @@ class timeAlert extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
         decoration: BoxDecoration(
-          color: Color(0xff7c94b6),
+          color: Color.fromARGB(255, 0, 220, 194),
           borderRadius: BorderRadius.circular(100),
         ),
         child: Column(
