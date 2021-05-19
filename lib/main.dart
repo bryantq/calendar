@@ -112,6 +112,7 @@ class _CalendarPageState extends State<CalendarPage> {
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         color: const Color(0xFFF2F2F2),
         child: ListView(
+          padding: EdgeInsets.only(right: 10),
           children: [
             AgendaItem(selectedDay: _selectedDay),
             Divider(color: Colors.transparent),
@@ -446,9 +447,10 @@ class eventItem extends StatelessWidget {
               const Text(
                 '10:00AM - 10:45AM',
                 style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Inter-Light',
-                  color: Colors.black38,
+                  fontSize: 18,
+                  letterSpacing: -0.5,
+                  fontFamily: 'Inter-ExtraLight',
+                  color: Color.fromARGB(255, 81, 106, 120),
                 ),
               ),
               const Spacer(),
@@ -466,30 +468,40 @@ class eventItem extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 15),
+          const SizedBox(height: 6),
           const Text(
             'Dentist Appointment',
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
+              letterSpacing: -1,
             ),
           ),
+          const SizedBox(height: 5),
           const Text(
             '3692 W Sunset Blvd, Las Vegas, NV 89113',
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF9BA5AA),
+              letterSpacing: -0.3,
+              fontFamily: 'Inter-Light',
+              color: Color.fromARGB(255, 155, 165, 170),
             ),
           ),
+          const SizedBox(height: 5),
           const Text(
             'Weekly Leadership Meeting',
             style: TextStyle(
               fontSize: 14,
-              color: Color(0xFF9BA5AA),
+              letterSpacing: -0.3,
+              fontFamily: 'Inter-Light',
+              color: Color.fromARGB(255, 155, 165, 170),
             ),
           ),
-          const SizedBox(height: 15),
-          const Icon(Icons.account_circle_rounded)
+          const SizedBox(height: 10),
+          const Icon(
+            Icons.account_circle_rounded,
+            color: Colors.grey,
+          ),
         ],
       ),
     );
