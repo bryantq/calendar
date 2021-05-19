@@ -70,108 +70,16 @@ class _CalendarPageState extends State<CalendarPage> {
                 children: [
                   Expanded(
                     flex: 4,
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
-                          child: Text(
-                            formattedTime,
-                            style: TextStyle(
-                              fontSize: 96,
-                              fontFamily: 'Inter-SemiBold',
-                              letterSpacing: -5,
-                              color: Colors.white,
-                              shadows: <Shadow>[
-                                Shadow(
-                                  offset: Offset(0, 0),
-                                  blurRadius: 10.0,
-                                  color: Color.fromARGB(150, 0, 0, 0),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        Text(
-                          formattedDate,
-                          style: TextStyle(
-                            fontFamily: 'Inter-ExtraLight',
-                            fontSize: 20,
-                            color: Colors.white,
-                            shadows: <Shadow>[
-                              Shadow(
-                                offset: Offset(0, 0),
-                                blurRadius: 5.0,
-                                color: Color.fromARGB(150, 0, 0, 0),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Chip(
-                          backgroundColor: Colors.white,
-                          padding: EdgeInsets.all(10),
-                          label: Text(
-                            "You have no meetings left today!",
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
+                    child: timeDisplay(formattedTime: formattedTime, formattedDate: formattedDate),
                   ),
-                  Expanded(
+                  Container(
                     child: InkWell(
                       onTap: () {
                         setState(() {
                           _alertWidgetVisible = !_alertWidgetVisible;
                         });
                       },
-                      child: AnimatedOpacity(
-                        opacity: _alertWidgetVisible ? 1.0 : 0.0,
-                        duration: Duration(milliseconds: 150),
-                        child: Container(
-                          padding: EdgeInsets.fromLTRB(50, 8, 50, 0),
-                          decoration: BoxDecoration(
-                            color: Color(0xff7c94b6),
-                            borderRadius: BorderRadius.circular(100),
-                          ),
-                          child: Column(
-                            children: [
-                              Text(
-                                "1 HR 36 MIN",
-                                style: TextStyle(
-                                  fontSize: 48,
-                                  fontFamily: 'Inter-SemiBold',
-                                  color: Colors.white,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0, 0),
-                                      blurRadius: 2,
-                                      color: Color.fromARGB(100, 0, 0, 0),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Text(
-                                "UNTIL NEXT MEETING",
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'Inter',
-                                  color: Colors.white,
-                                  shadows: <Shadow>[
-                                    Shadow(
-                                      offset: Offset(0, 0),
-                                      blurRadius: 2,
-                                      color: Color.fromARGB(100, 0, 0, 0),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
+                      child: timeAlert(alertWidgetVisible: _alertWidgetVisible),
                     ),
                   ),
                   Expanded(
@@ -210,256 +118,8 @@ class _CalendarPageState extends State<CalendarPage> {
         color: const Color(0xFFF2F2F2),
         child: ListView(
           children: [
-            Row(
-              children: [
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: 50,
-                  child: Column(
-                    children: [
-                      Text(
-                        _selectedDay!.day.toString(),
-                        style: const TextStyle(
-                          fontSize: 40,
-                          color: Color(0xFF9BA5AA),
-                        ),
-                      ),
-                      Text(
-                        DateFormat('EEE').format(_selectedDay!),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Color(0xFF9BA5AA),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              '10:00AM - 10:45AM',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF92E0AD),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Text(
-                                'Personal',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        const Text(
-                          'Dentist Appointment',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const Text(
-                          '3692 W Sunset Blvd, Las Vegas, NV 89113',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF9BA5AA),
-                          ),
-                        ),
-                        const Text(
-                          'Weekly Leadership Meeting',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF9BA5AA),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Icon(Icons.account_circle_rounded)
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            AgendaItem(selectedDay: _selectedDay),
             Divider(color: Colors.transparent),
-            Row(
-              children: [
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: 50,
-                  child: Column(
-                    children: [
-                      Text(''),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              '10:00AM - 10:45AM',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF92E0AD),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Text(
-                                'Personal',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        const Text(
-                          'Dentist Appointment',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const Text(
-                          '3692 W Sunset Blvd, Las Vegas, NV 89113',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF9BA5AA),
-                          ),
-                        ),
-                        const Text(
-                          'Weekly Leadership Meeting',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF9BA5AA),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Icon(Icons.account_circle_rounded)
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            Divider(color: Colors.transparent),
-            Row(
-              children: [
-                const SizedBox(width: 10),
-                SizedBox(
-                  width: 50,
-                  child: Column(
-                    children: [
-                      Text(
-                        _selectedDay!.day.toString(),
-                        style: const TextStyle(
-                          fontSize: 40,
-                          color: Color(0xFF9BA5AA),
-                        ),
-                      ),
-                      Text(
-                        DateFormat('EEE').format(_selectedDay!),
-                        style: const TextStyle(
-                          fontSize: 20,
-                          color: Color(0xFF9BA5AA),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Container(
-                    color: Colors.white,
-                    padding: const EdgeInsets.all(15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          children: [
-                            const Text(
-                              '10:00AM - 10:45AM',
-                              style: TextStyle(
-                                fontSize: 18,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            const Spacer(),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: BoxDecoration(
-                                color: const Color(0xFF92E0AD),
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              child: const Text(
-                                'Personal',
-                                style: TextStyle(
-                                    fontSize: 10, color: Colors.white),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 15),
-                        const Text(
-                          'Dentist Appointment',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black,
-                          ),
-                        ),
-                        const Text(
-                          '3692 W Sunset Blvd, Las Vegas, NV 89113',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF9BA5AA),
-                          ),
-                        ),
-                        const Text(
-                          'Weekly Leadership Meeting',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Color(0xFF9BA5AA),
-                          ),
-                        ),
-                        const SizedBox(height: 15),
-                        const Icon(Icons.account_circle_rounded)
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
           ],
         ),
       ),
@@ -574,6 +234,229 @@ class _CalendarPageState extends State<CalendarPage> {
           });
         }
       },
+    );
+  }
+}
+
+class timeAlert extends StatelessWidget {
+  const timeAlert({
+    Key? key,
+    required bool alertWidgetVisible,
+  }) : _alertWidgetVisible = alertWidgetVisible, super(key: key);
+
+  final bool _alertWidgetVisible;
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: _alertWidgetVisible ? 1.0 : 0.0,
+      duration: Duration(milliseconds: 150),
+      child: Container(
+        padding: EdgeInsets.fromLTRB(50, 10, 50, 10),
+        decoration: BoxDecoration(
+          color: Color(0xff7c94b6),
+          borderRadius: BorderRadius.circular(100),
+        ),
+        child: Column(
+          children: [
+            Text(
+              "1 HR 36 MIN",
+              style: TextStyle(
+                fontSize: 48,
+                fontFamily: 'Inter-SemiBold',
+                color: Colors.white,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(0, 0),
+                    blurRadius: 2,
+                    color: Color.fromARGB(100, 0, 0, 0),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              "UNTIL NEXT MEETING",
+              style: TextStyle(
+                fontSize: 20,
+                fontFamily: 'Inter',
+                color: Colors.white,
+                shadows: <Shadow>[
+                  Shadow(
+                    offset: Offset(0, 0),
+                    blurRadius: 2,
+                    color: Color.fromARGB(100, 0, 0, 0),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class timeDisplay extends StatelessWidget {
+  const timeDisplay({
+    Key? key,
+    required this.formattedTime,
+    required this.formattedDate,
+  }) : super(key: key);
+
+  final String formattedTime;
+  final String formattedDate;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Padding(
+          padding: EdgeInsets.fromLTRB(0, 50, 0, 10),
+          child: Text(
+            formattedTime,
+            style: TextStyle(
+              fontSize: 96,
+              fontFamily: 'Inter-SemiBold',
+              letterSpacing: -5,
+              color: Colors.white,
+              shadows: <Shadow>[
+                Shadow(
+                  offset: Offset(0, 0),
+                  blurRadius: 10.0,
+                  color: Color.fromARGB(150, 0, 0, 0),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Text(
+          formattedDate,
+          style: TextStyle(
+            fontFamily: 'Inter-ExtraLight',
+            fontSize: 20,
+            color: Colors.white,
+            shadows: <Shadow>[
+              Shadow(
+                offset: Offset(0, 0),
+                blurRadius: 5.0,
+                color: Color.fromARGB(150, 0, 0, 0),
+              ),
+            ],
+          ),
+        ),
+        Chip(
+          backgroundColor: Colors.white,
+          padding: EdgeInsets.all(10),
+          label: Text(
+            "You have no meetings left today!",
+            style: TextStyle(
+              fontSize: 14,
+              color: Colors.black,
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class AgendaItem extends StatelessWidget {
+  const AgendaItem({
+    Key? key,
+    required DateTime? selectedDay,
+  })   : _selectedDay = selectedDay,
+        super(key: key);
+
+  final DateTime? _selectedDay;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        const SizedBox(width: 10),
+        SizedBox(
+          width: 50,
+          child: Column(
+            children: [
+              Text(
+                _selectedDay!.day.toString(),
+                style: const TextStyle(
+                  fontSize: 40,
+                  color: Color(0xFF9BA5AA),
+                ),
+              ),
+              Text(
+                DateFormat('EEE').format(_selectedDay!),
+                style: const TextStyle(
+                  fontSize: 20,
+                  color: Color(0xFF9BA5AA),
+                ),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: 20),
+        Expanded(
+          child: Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(15),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    const Text(
+                      '10:00AM - 10:45AM',
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Colors.grey,
+                      ),
+                    ),
+                    const Spacer(),
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF92E0AD),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: const Text(
+                        'Personal',
+                        style: TextStyle(fontSize: 10, color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 15),
+                const Text(
+                  'Dentist Appointment',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Colors.black,
+                  ),
+                ),
+                const Text(
+                  '3692 W Sunset Blvd, Las Vegas, NV 89113',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF9BA5AA),
+                  ),
+                ),
+                const Text(
+                  'Weekly Leadership Meeting',
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Color(0xFF9BA5AA),
+                  ),
+                ),
+                const SizedBox(height: 15),
+                const Icon(Icons.account_circle_rounded)
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
