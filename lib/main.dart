@@ -85,23 +85,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   Expanded(
                     flex: 2,
                     child:
-                    Container (
-                      margin: EdgeInsets.all(20),
-                      padding: EdgeInsets.all(20),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Color.fromARGB(255, 247, 247, 247),
-                          width: 10,
-                          ),
-                        color: Colors.white,
-                      ),
-                      child:Text(
-                        "Next Meeting Placeholder",
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.black,
-                        ),
-                      ),
-                    ),
+                    nextMeeting(),
 
                   ),
                 ],
@@ -130,6 +114,14 @@ class _CalendarPageState extends State<CalendarPage> {
         color: const Color(0xFFF2F2F2),
         child: ListView(
           children: [
+            AgendaItem(selectedDay: _selectedDay),
+            Divider(color: Colors.transparent),
+            AgendaItem(selectedDay: _selectedDay),
+            Divider(color: Colors.transparent),
+            AgendaItem(selectedDay: _selectedDay),
+            Divider(color: Colors.transparent),
+            AgendaItem(selectedDay: _selectedDay),
+            Divider(color: Colors.transparent),
             AgendaItem(selectedDay: _selectedDay),
             Divider(color: Colors.transparent),
           ],
@@ -246,6 +238,34 @@ class _CalendarPageState extends State<CalendarPage> {
           });
         }
       },
+    );
+  }
+}
+
+class nextMeeting extends StatelessWidget {
+  const nextMeeting({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container (
+      margin: EdgeInsets.all(30),
+      padding: EdgeInsets.all(20),
+      width: 1000,
+      decoration: BoxDecoration(
+          border: Border.all(color: Color.fromARGB(255, 247, 247, 247),
+          width: 10,
+          ),
+        color: Colors.white,
+      ),
+      child:Text(
+        "Next Meeting Placeholder",
+        style: TextStyle(
+          fontSize: 14,
+          color: Colors.black,
+        ),
+      ),
     );
   }
 }
