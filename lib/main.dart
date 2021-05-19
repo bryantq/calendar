@@ -32,6 +32,7 @@ class _CalendarPageState extends State<CalendarPage> {
   CalendarFormat _calendarFormat = CalendarFormat.week;
 
   DateTime? _selectedDay;
+  String _eventTime = "";
   var formattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
   var formattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
 
@@ -163,7 +164,13 @@ class _CalendarPageState extends State<CalendarPage> {
                 itemBuilder: (context, index) {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 15),
-                    child: eventItem(),
+                    child: eventItem(
+                      eventTime: "10:50AM - 12:30AM",
+                      eventTitle: '${value[index]}',
+                      eventLocation: "6255 W Sunset Blvd, Los Angeles, CA 89102",
+                      eventType:"Personal",
+                      eventDesc: "Blah",
+                    ),
                   );
                 },
               );
@@ -339,7 +346,13 @@ class nextMeeting extends StatelessWidget {
           ),
         color: Colors.white,
       ),
-      child:eventItem(),
+      child:eventItem(
+        eventTime: "10:50AM - 12:30AM",
+        eventTitle: "Dentist Appointment",
+        eventLocation: "6255 W Sunset Blvd, Los Angeles, CA 89102",
+        eventType:"Personal",
+        eventDesc: "Blah",
+      ),
     );
   }
 }
@@ -464,57 +477,17 @@ class timeDisplay extends StatelessWidget {
     );
   }
 }
-
-class AgendaItem extends StatelessWidget {
-  const AgendaItem({
-    Key? key,
-    required DateTime? selectedDay,
-  })   : _selectedDay = selectedDay,
-        super(key: key);
-
-  final DateTime? _selectedDay;
-
-
+class eventItem extends StatefulWidget{
+  final String eventTime;
+  final String eventTitle;
+  final String eventDesc;
+  final String eventLocation;
+  final String eventType;
+  const eventItem({Key? key, required this.eventTime, required this.eventTitle, required this.eventDesc, required this.eventLocation, required this.eventType}): super(key: key);
   @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const SizedBox(width: 10),
-        SizedBox(
-          width: 50,
-          child: Column(
-            children: [
-              Text(
-                _selectedDay!.day.toString(),
-                style: const TextStyle(
-                  fontSize: 40,
-                  color: Color(0xFF9BA5AA),
-                ),
-              ),
-              Text(
-                DateFormat('EEE').format(_selectedDay!),
-                style: const TextStyle(
-                  fontSize: 20,
-                  color: Color(0xFF9BA5AA),
-                ),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 20),
-        Expanded(
-          child: eventItem(),
-        ),
-      ],
-    );
-  }
+  _eventItemState createState() => _eventItemState();
 }
-
-class eventItem extends StatelessWidget {
-  const eventItem({
-    Key? key,
-  }) : super(key: key);
-
+class _eventItemState extends State<eventItem> {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -525,8 +498,8 @@ class eventItem extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Text(
-                '10:00AM - 10:45AM',
+              Text(
+                widget.eventTime,
                 style: TextStyle(
                   fontSize: 18,
                   letterSpacing: -0.5,
@@ -542,16 +515,16 @@ class eventItem extends StatelessWidget {
                   color: const Color(0xFF92E0AD),
                   borderRadius: BorderRadius.circular(5),
                 ),
-                child: const Text(
-                  'Personal',
+                child: Text(
+                  widget.eventType,
                   style: TextStyle(fontSize: 10, color: Colors.white),
                 ),
               ),
             ],
           ),
           const SizedBox(height: 6),
-          const Text(
-            'Dentist Appointment',
+           Text(
+            widget.eventTitle,
             style: TextStyle(
               fontSize: 18,
               color: Colors.black,
@@ -559,8 +532,8 @@ class eventItem extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            '3692 W Sunset Blvd, Las Vegas, NV 89113',
+           Text(
+            widget.eventLocation,
             style: TextStyle(
               fontSize: 14,
               letterSpacing: -0.3,
@@ -569,8 +542,8 @@ class eventItem extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 5),
-          const Text(
-            'Weekly Leadership Meeting',
+           Text(
+            widget.eventDesc,
             style: TextStyle(
               fontSize: 14,
               letterSpacing: -0.3,
