@@ -165,10 +165,11 @@ class _CalendarPageState extends State<CalendarPage> {
                   return Container(
                     margin: const EdgeInsets.only(bottom: 15),
                     child: eventItem(
+                      eventDate: "",
                       eventTime: "10:50AM - 12:30AM",
                       eventTitle: '${value[index]}',
                       eventLocation: "6255 W Sunset Blvd, Los Angeles, CA 89102",
-                      eventType:"Personal",
+                      eventType:"Work",
                       eventDesc: "Blah",
                     ),
                   );
@@ -280,7 +281,7 @@ class _CalendarPageState extends State<CalendarPage> {
                   child: Text(
                     date.day.toString(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, color: Colors.white),
+                    style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
               ),
@@ -347,6 +348,7 @@ class nextMeeting extends StatelessWidget {
         color: Colors.white,
       ),
       child:eventItem(
+        eventDate: "",
         eventTime: "10:50AM - 12:30AM",
         eventTitle: "Dentist Appointment",
         eventLocation: "6255 W Sunset Blvd, Los Angeles, CA 89102",
@@ -478,12 +480,13 @@ class timeDisplay extends StatelessWidget {
   }
 }
 class eventItem extends StatefulWidget{
+  final String eventDate;
   final String eventTime;
   final String eventTitle;
   final String eventDesc;
   final String eventLocation;
   final String eventType;
-  const eventItem({Key? key, required this.eventTime, required this.eventTitle, required this.eventDesc, required this.eventLocation, required this.eventType}): super(key: key);
+  const eventItem({Key? key, required this.eventDate, required this.eventTime, required this.eventTitle, required this.eventDesc, required this.eventLocation, required this.eventType}): super(key: key);
   @override
   _eventItemState createState() => _eventItemState();
 }
