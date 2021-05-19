@@ -82,8 +82,7 @@ class _CalendarPageState extends State<CalendarPage> {
                       child: timeAlert(alertWidgetVisible: _alertWidgetVisible),
                     ),
                   ),
-                  Expanded(
-                    flex: 2,
+                  Container(
                     child:
                     nextMeeting(),
 
@@ -251,7 +250,6 @@ class nextMeeting extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container (
       margin: EdgeInsets.all(30),
-      padding: EdgeInsets.all(20),
       width: 1000,
       decoration: BoxDecoration(
           border: Border.all(color: Color.fromARGB(255, 247, 247, 247),
@@ -259,13 +257,7 @@ class nextMeeting extends StatelessWidget {
           ),
         color: Colors.white,
       ),
-      child:Text(
-        "Next Meeting Placeholder",
-        style: TextStyle(
-          fontSize: 14,
-          color: Colors.black,
-        ),
-      ),
+      child:eventItem(),
     );
   }
 }
@@ -379,7 +371,7 @@ class timeDisplay extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(20),
           child:Text(
-              "You have no meetings left today!",
+              "You have 2 meetings left today!",
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.white38,
@@ -429,65 +421,77 @@ class AgendaItem extends StatelessWidget {
         ),
         const SizedBox(width: 20),
         Expanded(
-          child: Container(
-            color: Colors.white,
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    const Text(
-                      '10:00AM - 10:45AM',
-                      style: TextStyle(
-                        fontSize: 18,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const Spacer(),
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 5),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF92E0AD),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: const Text(
-                        'Personal',
-                        style: TextStyle(fontSize: 10, color: Colors.white),
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 15),
-                const Text(
-                  'Dentist Appointment',
-                  style: TextStyle(
-                    fontSize: 18,
-                    color: Colors.black,
-                  ),
-                ),
-                const Text(
-                  '3692 W Sunset Blvd, Las Vegas, NV 89113',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF9BA5AA),
-                  ),
-                ),
-                const Text(
-                  'Weekly Leadership Meeting',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Color(0xFF9BA5AA),
-                  ),
-                ),
-                const SizedBox(height: 15),
-                const Icon(Icons.account_circle_rounded)
-              ],
-            ),
-          ),
+          child: eventItem(),
         ),
       ],
+    );
+  }
+}
+
+class eventItem extends StatelessWidget {
+  const eventItem({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      padding: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Text(
+                '10:00AM - 10:45AM',
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'Inter-Light',
+                  color: Colors.black38,
+                ),
+              ),
+              const Spacer(),
+              Container(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 10, vertical: 5),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF92E0AD),
+                  borderRadius: BorderRadius.circular(5),
+                ),
+                child: const Text(
+                  'Personal',
+                  style: TextStyle(fontSize: 10, color: Colors.white),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 15),
+          const Text(
+            'Dentist Appointment',
+            style: TextStyle(
+              fontSize: 18,
+              color: Colors.black,
+            ),
+          ),
+          const Text(
+            '3692 W Sunset Blvd, Las Vegas, NV 89113',
+            style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF9BA5AA),
+            ),
+          ),
+          const Text(
+            'Weekly Leadership Meeting',
+            style: TextStyle(
+              fontSize: 14,
+              color: Color(0xFF9BA5AA),
+            ),
+          ),
+          const SizedBox(height: 15),
+          const Icon(Icons.account_circle_rounded)
+        ],
+      ),
     );
   }
 }
