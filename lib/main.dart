@@ -344,17 +344,20 @@ class timeDisplay extends StatelessWidget {
             ],
           ),
         ),
-        Chip(
-          backgroundColor: Colors.white,
-          padding: EdgeInsets.all(10),
-          label: Text(
-            "You have no meetings left today!",
-            style: TextStyle(
-              fontSize: 14,
-              color: Colors.black,
+        Container(
+          padding: const EdgeInsets.all(20),
+          child:Chip(
+            backgroundColor: Colors.white,
+            padding: EdgeInsets.all(10),
+            label: Text(
+              "You have no meetings left today!",
+              style: TextStyle(
+                fontSize: 14,
+                color: Colors.black,
+              ),
             ),
           ),
-        ),
+        )
       ],
     );
   }
