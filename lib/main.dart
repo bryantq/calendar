@@ -30,6 +30,7 @@ class _CalendarPageState extends State<CalendarPage> {
   bool _alertWidgetVisible = true;
   DateTime _focusedDay = DateTime.now();
   CalendarFormat _calendarFormat = CalendarFormat.week;
+
   DateTime? _selectedDay;
   var formattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
   var formattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
@@ -161,6 +162,7 @@ class _CalendarPageState extends State<CalendarPage> {
                 itemCount: value.length,
                 itemBuilder: (context, index) {
                   return Container(
+                    margin: const EdgeInsets.only(bottom: 15),
                     child: eventItem(),
                   );
                 },
@@ -187,7 +189,7 @@ class _CalendarPageState extends State<CalendarPage> {
       onDaySelected: _onDaySelected,
       calendarStyle: const CalendarStyle(
         isTodayHighlighted: true,
-        outsideDaysVisible: false,
+        outsideDaysVisible: true,
       ),
       rowHeight: 50,
       eventLoader: _getEventsForDay,
@@ -234,6 +236,44 @@ class _CalendarPageState extends State<CalendarPage> {
                     date.day.toString(),
                     textAlign: TextAlign.center,
                     style: TextStyle(fontSize: 20, color: greyColor),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        outsideBuilder: (BuildContext context, DateTime date, DateTime date2) {
+          return Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: SizedBox(
+              height: 40,
+              width: 40,
+              child: Container(
+                child: Center(
+                  child: Text(
+                    date.day.toString(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 20, color: Color.fromARGB(255, 200, 200, 200)),
+                  ),
+                ),
+              ),
+            ),
+          );
+        },
+        todayBuilder: (BuildContext context, DateTime date, DateTime date2) {
+          return Container(
+            margin: const EdgeInsets.only(top: 5),
+            child: SizedBox(
+              height: 40,
+              width: 40,
+              child: Container(
+                decoration:
+                BoxDecoration(color: Color.fromARGB(255, 50, 50, 50), shape: BoxShape.circle),
+                child: Center(
+                  child: Text(
+                    date.day.toString(),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(fontSize: 20, color: Colors.white),
                   ),
                 ),
               ),
