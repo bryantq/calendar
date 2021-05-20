@@ -276,63 +276,71 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget loginBar() {
     GoogleSignInAccount? user = _currentUser;
     if (user != null) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Row(
-            children: [
-            Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              child:GoogleUserCircleAvatar(
-              identity: user,
+      return
+        Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
             ),
-            ),
+            child:
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                      child:GoogleUserCircleAvatar(
+                        identity: user,
+                      ),
+                    ),
 
-            Expanded (
-                child:
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [Text(user.displayName ?? ''),
-                  Text(user.email),],)
-            ),
+                    Expanded (
+                        child:
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [Text(user.displayName ?? ''),
+                            Text(user.email),],)
+                    ),
 
-              //const Text("Signed in successfully."),
-              //Text(_contactText),
-              Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  child:
-                IconButton(
-                  icon: Icon(
-                    Icons.refresh,
-                    color: Colors.black38,
-                    size: 24.0,
-                  ),
-                  color: Colors.black38,
-                  tooltip: 'Refresh',
-                  onPressed: () => _handleGetContact(user),
-                )
-              ),
-              Container(
-                margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-                child:
-                IconButton(
-                  icon: Icon(
-                    Icons.logout,
-                    color: Colors.black38,
-                    size: 24.0,
-                  ),
-                  color: Colors.black38,
-                  tooltip: 'Logout',
-                  onPressed: _handleSignOut,
+                    //const Text("Signed in successfully."),
+                    //Text(_contactText),
+                    Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                        child:
+                        IconButton(
+                          icon: Icon(
+                            Icons.refresh,
+                            color: Colors.black38,
+                            size: 24.0,
+                          ),
+                          color: Colors.black38,
+                          tooltip: 'Refresh',
+                          onPressed: () => _handleGetContact(user),
+                        )
+                    ),
+                    Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
+                      child:
+                      IconButton(
+                        icon: Icon(
+                          Icons.logout,
+                          color: Colors.black38,
+                          size: 24.0,
+                        ),
+                        color: Colors.black38,
+                        tooltip: 'Logout',
+                        onPressed: _handleSignOut,
+                      ),
+                    ),
+
+
+                  ],
                 ),
-              ),
+              ],
+            )
+        );
 
-
-          ],
-        ),
-    ],
-      );
     } else {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
