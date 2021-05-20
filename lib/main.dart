@@ -163,7 +163,7 @@ class _CalendarPageState extends State<CalendarPage> {
 
   @override
   void initState() {
-    final String formattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
+    final String formattedTime = DateFormat('H:mm').format(DateTime.now()).toString();
     final String formattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
     _selectedDay = _focusedDay;
     Timer.periodic(Duration(seconds: 1), (Timer t) => _getTime());
@@ -180,7 +180,7 @@ class _CalendarPageState extends State<CalendarPage> {
   }
   void _getTime() {
     final DateTime now = DateTime.now();
-    final String newformattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
+    final String newformattedTime = DateFormat('H:mm').format(DateTime.now()).toString();
     final String newformattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
     setState(() {
       formattedTime = newformattedTime;
