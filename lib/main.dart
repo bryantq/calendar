@@ -337,7 +337,7 @@ class _CalendarPageState extends State<CalendarPage> {
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: <Widget>[
-          const Text("You are not currently signed in."),
+          const Text("Sign in to get started"),
           ElevatedButton(
             child: const Text('SIGN IN'),
             onPressed: _handleSignIn,
@@ -351,7 +351,7 @@ class _CalendarPageState extends State<CalendarPage> {
     return Expanded(
       child: Container(
         margin: const EdgeInsets.only(top: 30),
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        //padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
         color: const Color(0xFFF2F2F2),
         child: Container(
           child: ValueListenableBuilder<List<Event>>(
@@ -361,7 +361,6 @@ class _CalendarPageState extends State<CalendarPage> {
                 itemCount: value.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: const EdgeInsets.only(bottom: 15),
                     child: eventItem(
                       eventDate: "",
                       eventTime: "10:50AM - 12:30AM",
@@ -696,8 +695,9 @@ class _eventItemState extends State<eventItem> {
     if (widget.eventType == "Personal") { typeColor = Color.fromARGB(255, 146, 223, 173); }
     if (widget.eventType == "Work") { typeColor = Color.fromARGB(255, 103, 200, 225); }
     return Container(
+
       color: Colors.white,
-      margin: const EdgeInsets.only(right: 10),
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
       padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
