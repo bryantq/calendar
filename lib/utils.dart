@@ -7,12 +7,15 @@ import 'package:table_calendar/table_calendar.dart';
 
 /// Example event class.
 class Event {
-  final String title;
+  final String eventDate;
+  final String eventTime;
+  final String eventTitle;
+  final String eventDesc;
+  final String eventLocation;
+  final String eventType;
 
-  const Event(this.title);
+  const Event({required this.eventDate, required this.eventTime, required this.eventTitle, required this.eventDesc, required this.eventLocation, required this.eventType});
 
-  @override
-  String toString() => title;
 }
 
 /// Example events.
@@ -26,11 +29,32 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
     key: (item) => DateTime.utc(2020, 10, item * 5),
     value: (item) => List.generate(
-        item % 4 + 1, (index) => Event('Event $item | ${index + 1}')))
+        item % 4 + 1, (index) => Event(
+        eventDate: "",
+        eventTime: "10:50AM - 12:30AM",
+        eventTitle: 'Event $item | ${index + 1}',
+        eventLocation: 'W Sunset Blvd, Los Angeles, CA 89102',
+        eventType:"Work",
+        eventDesc: "Blah",
+    )))
   ..addAll({
     DateTime.now(): [
-      Event('Today\'s Event 1'),
-      Event('Today\'s Event 2'),
+      Event(
+        eventDate: "",
+        eventTime: "10:50AM - 12:30AM",
+        eventTitle: 'Today\'s Event 1',
+        eventLocation: '1 W Sunset Blvd, Los Angeles, CA 89102',
+        eventType:"Work",
+        eventDesc: "Blah",
+      ),
+      Event(
+        eventDate: "",
+        eventTime: "10:50AM - 12:30AM",
+        eventTitle: 'Today\'s Event 2',
+        eventLocation: '2 W Sunset Blvd, Los Angeles, CA 89102',
+        eventType:"Work",
+        eventDesc: "Blah",
+      ),
     ],
   });
 

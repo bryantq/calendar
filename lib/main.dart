@@ -370,12 +370,12 @@ class _CalendarPageState extends State<CalendarPage> {
                 itemBuilder: (context, index) {
                   return Container(
                     child: eventItem(
-                      eventDate: "",
-                      eventTime: "10:50AM - 12:30AM",
-                      eventTitle: '${value[index]}',
-                      eventLocation: "6255 W Sunset Blvd, Los Angeles, CA 89102",
-                      eventType:"Work",
-                      eventDesc: "Blah",
+                      eventDate: '${value[index].eventDate}',
+                      eventTime: '${value[index].eventTime}',
+                      eventTitle: '${value[index].eventTitle}',
+                      eventLocation: '${value[index].eventLocation}',
+                      eventType: '${value[index].eventType}',
+                      eventDesc: '${value[index].eventDesc}',
                     ),
                   );
                 },
