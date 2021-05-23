@@ -223,6 +223,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
   Widget loginBar() {
     var user = _currentUser;
     if (user != null) {
+      final String avatarURL = user.photoUrl.toString();
       return Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
