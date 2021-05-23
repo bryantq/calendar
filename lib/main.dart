@@ -80,19 +80,28 @@ class _CalendarPageState extends State<CalendarPage> {
       _contactText = "Loading contact info...";
     });
     final http.Response response = await http.get(
-      Uri.parse("https://www.googleapis.com/calendar/v3/calendars/${user.email}/events"
-          '?timeMin=2021-05-19T00:00:00-07:00'),
+      Uri.parse("https://www.googleapis.com/calendar/v3/calendars/primary/events"
+          '?timeMin=2021-05-19T00:00:00-07:00&maxResults=3&singleEvents=true&orderBy=startTime'),
       headers: await user.authHeaders,
     );
     if (response.statusCode != 200) {
       setState(() {
         _contactText = "Calendar API gave a ${response.statusCode} "
             "response. Check logs for details.";
+        print('Calendar API ${response.statusCode} response: ${response.body}');
       });
       print('Calendar API ${response.statusCode} response: ${response.body}');
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
+    List<dynamic> calevents = data['items'];
+    calevents.forEach((calevents) {
+      (calevents as Map<String, dynamic>).forEach((key, value) {
+        print('$key : $value');
+      });
+    });
+
+
     final String? namedContact = _pickFirstNamedContact(data);
     setState(() {
       if (namedContact != null) {
