@@ -285,6 +285,7 @@ class _CalendarPageState extends State<CalendarPage> {
   Widget loginBar() {
     GoogleSignInAccount? user = _currentUser;
     if (user != null) {
+      final String avatarURL = user.photoUrl.toString();
       return
         Container(
             decoration: BoxDecoration(
@@ -299,8 +300,8 @@ class _CalendarPageState extends State<CalendarPage> {
                     Container(
                       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                      child:GoogleUserCircleAvatar(
-                        identity: user,
+                      child:CircleAvatar(
+                        backgroundImage: NetworkImage(avatarURL),
                       ),
                     ),
 
