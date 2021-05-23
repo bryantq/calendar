@@ -39,3 +39,8 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+
+# Google files
+google-services.json
+GoogleService-Info.plist
+client_secret_*.apps.googleusercontent.com.json
