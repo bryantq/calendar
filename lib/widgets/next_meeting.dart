@@ -9,7 +9,7 @@ class nextMeeting extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container (
-      // margin: const EdgeInsets.all(10),
+      margin: const EdgeInsets.all(20),
       // width: 1000,
       decoration: BoxDecoration(
           border: Border.all(color: const Color.fromARGB(255, 247, 247, 247),

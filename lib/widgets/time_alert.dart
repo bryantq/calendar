@@ -25,7 +25,7 @@ class timeAlert extends StatelessWidget {
             const Text(
               '1 HR 36 MIN',
               style: TextStyle(
-                fontSize: 20,
+                fontSize: 56,
                 fontFamily: 'Inter-SemiBold',
                 color: Colors.white,
                 shadows: <Shadow>[

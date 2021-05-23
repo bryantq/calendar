@@ -166,7 +166,10 @@ class _CalendarPageState extends State<CalendarPageScreen> {
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 children: [
-                  timeDisplay(formattedTime: formattedTime, formattedDate: formattedDate),
+                  Expanded(
+                    child: timeDisplay(formattedTime: formattedTime, formattedDate: formattedDate),
+                  ),
+
                   Container(
                       child: InkWell(
                         onTap: () {
@@ -177,7 +180,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
                         child: timeAlert(alertWidgetVisible: _alertWidgetVisible),
                       ),
                     ),
-                  Expanded(
+                  Container(
                       child: Container(
                       child:
                       const nextMeeting(),

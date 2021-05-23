@@ -15,11 +15,11 @@ class timeDisplay extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+          padding: const EdgeInsets.fromLTRB(0, 40, 0, 10),
           child: Text(
             formattedTime,
             style: const TextStyle(
-              fontSize: 20,
+              fontSize: 96,
               fontFamily: 'Inter-SemiBold',
               letterSpacing: -3,
               color: Colors.white,
