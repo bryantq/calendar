@@ -30,30 +30,30 @@ final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
     key: (item) => DateTime.utc(2020, 10, item * 5),
     value: (item) => List.generate(
         item % 4 + 1, (index) => Event(
-        eventDate: "",
-        eventTime: "10:50AM - 12:30AM",
+        eventDate: '',
+        eventTime: '10:50AM - 12:30AM',
         eventTitle: 'Event $item | ${index + 1}',
         eventLocation: 'W Sunset Blvd, Los Angeles, CA 89102',
-        eventType: "Work",
-        eventDesc: "Blah",
+        eventType: 'Work',
+        eventDesc: 'Blah',
     )))
   ..addAll({
     DateTime.now(): [
       Event(
-        eventDate: "",
-        eventTime: "10:50AM - 12:30AM",
+        eventDate: '',
+        eventTime: '10:50AM - 12:30AM',
         eventTitle: 'Today\'s Event 1',
         eventLocation: '1 W Sunset Blvd, Los Angeles, CA 89102',
-        eventType: "Work",
-        eventDesc: "Blah",
+        eventType: 'Work',
+        eventDesc: 'Blah',
       ),
       Event(
-        eventDate: "",
-        eventTime: "10:50AM - 12:30AM",
+        eventDate: '',
+        eventTime: '10:50AM - 12:30AM',
         eventTitle: 'Today\'s Event 2',
         eventLocation: '2 W Sunset Blvd, Los Angeles, CA 89102',
-        eventType: "Work",
-        eventDesc: "Blah",
+        eventType: 'Work',
+        eventDesc: 'Blah',
       ),
     ],
   });

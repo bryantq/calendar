@@ -1,0 +1,16 @@
+include: package:pedantic/analysis_options.yaml
+
+analyzer:
+  exclude: [build/**]
+  enable-experiment:
+    - non-nullable
+
+linter:
+  rules:
+    - prefer_const_constructors
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - unnecessary_const
+    - prefer_single_quotes
+    - unnecessary_brace_in_string_interps
+    - prefer_collection_literals
