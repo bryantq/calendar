@@ -49,8 +49,8 @@ class _CalendarPageState extends State<CalendarPageScreen> {
       _contactText = 'Loading contact info...';
     });
     final response = await http.get(
-      Uri.parse('https://www.googleapis.com/calendar/v3/calendars/${user.email}/events'
-          '?timeMin=2021-05-19T00:00:00-07:00'),
+      Uri.parse('https://www.googleapis.com/calendar/v3/calendars/primary/events'
+          '?timeMin=2021-05-19T00:00:00-07:00&maxResults=3&singleEvents=true&orderBy=startTime'),
       headers: await user.authHeaders,
     );
     if (response.statusCode != 200) {
@@ -62,32 +62,12 @@ class _CalendarPageState extends State<CalendarPageScreen> {
       return;
     }
     final Map<String, dynamic> data = json.decode(response.body);
-    final namedContact = _pickFirstNamedContact(data);
-    setState(() {
-      if (namedContact != null) {
-        _contactText = 'I see you know $namedContact!';
-      } else {
-        _contactText = 'No contacts to display.';
-      }
+    List<dynamic> calevents = data['items'];
+    calevents.forEach((calevents) {
+      (calevents as Map<String, dynamic>).forEach((key, value) {
+        print('$key : $value');
+      });
     });
-  }
-
-  String? _pickFirstNamedContact(Map<String, dynamic> data) {
-    final List<dynamic>? connections = data['connections'];
-    final Map<String, dynamic>? contact = connections?.firstWhere(
-          (dynamic contact) => contact['names'] != null,
-      orElse: () => null,
-    );
-    if (contact != null) {
-      final Map<String, dynamic>? name = contact['names'].firstWhere(
-            (dynamic name) => name['displayName'] != null,
-        orElse: () => null,
-      );
-      if (name != null) {
-        return name['displayName'];
-      }
-    }
-    return null;
   }
 
   Future<void> _handleSignIn() async {
@@ -251,8 +231,8 @@ class _CalendarPageState extends State<CalendarPageScreen> {
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
                 padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child:GoogleUserCircleAvatar(
-                  identity: user,
+                child:CircleAvatar(
+                  backgroundImage: NetworkImage(avatarURL),
                 ),
               ),
 
