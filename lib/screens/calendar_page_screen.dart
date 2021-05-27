@@ -115,10 +115,10 @@ class _CalendarPageState extends State<CalendarPageScreen> {
 
   @override
   void initState() {
-    _selectedDay = _focusedDay;
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
     _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
       setState(() {
+        _selectedDay = _focusedDay;
         _currentUser = account;
       });
       if (_currentUser != null) {
@@ -127,6 +127,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
     });
     _googleSignIn.signInSilently();
     Wakelock.enable();
+    _selectedEvents.value = _getEventsForDay(_focusedDay);
     super.initState();
   }
 
