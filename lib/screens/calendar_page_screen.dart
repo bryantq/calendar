@@ -93,7 +93,6 @@ class _CalendarPageState extends State<CalendarPageScreen> {
         }
       }
     });
-    print(_calendarEvents);
   }
 
   Future<void> _handleSignIn() async {
