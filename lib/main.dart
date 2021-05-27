@@ -3,6 +3,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:flutter/services.dart';
 import 'package:calendar/screens/calendar_page_screen.dart';
 
+
 void main() {
   initializeDateFormatting().then((_) => runApp(MyApp()));
 }

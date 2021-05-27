@@ -28,8 +28,7 @@ dependencies:
   intl: 0.17.0
   http: ^0.13.3
   cupertino_icons: ^1.0.0
-  firebase_core: ^1.2.0
-  firebase_auth: ^1.2.0
+  wakelock: ^0.5.2
 
 dev_dependencies:
   flutter_test:

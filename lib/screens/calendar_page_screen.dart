@@ -10,6 +10,7 @@ import 'package:calendar/utils.dart';
 import 'package:calendar/widgets/time_alert.dart';
 import 'package:calendar/widgets/time_display.dart';
 import 'package:calendar/widgets/next_meeting.dart';
+import 'package:wakelock/wakelock.dart';
 
 GoogleSignIn _googleSignIn = GoogleSignIn(
   // Optional clientId
@@ -123,6 +124,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
       }
     });
     _googleSignIn.signInSilently();
+    Wakelock.enable();
     super.initState();
   }
   void _getTime() {
