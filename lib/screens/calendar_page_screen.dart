@@ -35,7 +35,8 @@ class _CalendarPageState extends State<CalendarPageScreen> {
 
   DateTime? _selectedDay;
   var formattedTime = DateFormat('kk:mm').format(DateTime.now()).toString();
-  var formattedDate = DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
+  var formattedDate =
+      DateFormat('E, MMMM d, y').format(DateTime.now()).toString();
 
   Color blueColor = const Color(0xFF67C8FF);
   Color greyColor = const Color(0xFF555555);
@@ -50,7 +51,8 @@ class _CalendarPageState extends State<CalendarPageScreen> {
       _contactText = 'Loading contact info...';
     });
     final response = await http.get(
-      Uri.parse('https://www.googleapis.com/calendar/v3/calendars/primary/events'
+      Uri.parse(
+          'https://www.googleapis.com/calendar/v3/calendars/primary/events'
           '?timeMin=2021-05-19T00:00:00-07:00&maxResults=3&singleEvents=true&orderBy=startTime'),
       headers: await user.authHeaders,
     );
@@ -127,6 +129,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
     Wakelock.enable();
     super.initState();
   }
+
   void _getTime() {
     final now = DateTime.now();
     final newformattedTime = DateFormat('kk:mm').format(now).toString();
@@ -169,23 +172,23 @@ class _CalendarPageState extends State<CalendarPageScreen> {
                 mainAxisSize: MainAxisSize.max,
                 children: [
                   Expanded(
-                    child: timeDisplay(formattedTime: formattedTime, formattedDate: formattedDate),
+                    child: timeDisplay(
+                        formattedTime: formattedTime,
+                        formattedDate: formattedDate),
                   ),
-
                   Container(
-                      child: InkWell(
-                        onTap: () {
-                          setState(() {
-                            _alertWidgetVisible = !_alertWidgetVisible;
-                          });
-                        },
-                        child: timeAlert(alertWidgetVisible: _alertWidgetVisible),
-                      ),
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _alertWidgetVisible = !_alertWidgetVisible;
+                        });
+                      },
+                      child: timeAlert(alertWidgetVisible: _alertWidgetVisible),
                     ),
+                  ),
                   Container(
-                      child: Container(
-                      child:
-                      const nextMeeting(),
+                    child: Container(
+                      child: const nextMeeting(),
                     ),
                   ),
                 ],
@@ -204,17 +207,16 @@ class _CalendarPageState extends State<CalendarPageScreen> {
       ),
     );
   }
+
   Widget rightPane() {
     var user = _currentUser;
     if (user == null) {
       return Expanded(
         child: loginBar(),
       );
-    }
-    else {
+    } else {
       return Expanded(
-        child:
-        Column (
+        child: Column(
           children: [
             calendarView(),
             agendaView(),
@@ -236,43 +238,40 @@ class _CalendarPageState extends State<CalendarPageScreen> {
             children: [
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-                child:CircleAvatar(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+                child: CircleAvatar(
                   backgroundImage: NetworkImage(avatarURL),
                 ),
               ),
 
-              Expanded (
-                child:
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(user.displayName ?? ''),
-                    Text(user.email),
-                  ],
-                )
-              ),
+              Expanded(
+                  child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(user.displayName ?? ''),
+                  Text(user.email),
+                ],
+              )),
 
               //const Text("Signed in successfully."),
               //Text(_contactText),
               Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-                  child:
-                IconButton(
-                  icon: const Icon(
-                    Icons.refresh,
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.refresh,
+                      color: Colors.black38,
+                      size: 24.0,
+                    ),
                     color: Colors.black38,
-                    size: 24.0,
-                  ),
-                  color: Colors.black38,
-                  tooltip: 'Refresh',
-                  onPressed: () => _handleGetContact(user),
-                )
-              ),
+                    tooltip: 'Refresh',
+                    onPressed: () => _handleGetContact(user),
+                  )),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
-                child:
-                IconButton(
+                child: IconButton(
                   icon: const Icon(
                     Icons.logout,
                     color: Colors.black38,
@@ -412,7 +411,9 @@ class _CalendarPageState extends State<CalendarPageScreen> {
                   child: Text(
                     date.day.toString(),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(fontSize: 20, color: Color.fromARGB(255, 200, 200, 200)),
+                    style: const TextStyle(
+                        fontSize: 20,
+                        color: Color.fromARGB(255, 200, 200, 200)),
                   ),
                 ),
               ),
@@ -426,8 +427,9 @@ class _CalendarPageState extends State<CalendarPageScreen> {
               height: 40,
               width: 40,
               child: Container(
-                decoration:
-                const BoxDecoration(color: Color.fromARGB(255, 50, 50, 50), shape: BoxShape.circle),
+                decoration: const BoxDecoration(
+                    color: Color.fromARGB(255, 50, 50, 50),
+                    shape: BoxShape.circle),
                 child: Center(
                   child: Text(
                     date.day.toString(),
