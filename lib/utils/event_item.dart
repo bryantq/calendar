@@ -20,7 +20,7 @@ class _eventItemState extends State<eventItem> {
     if (widget.eventType == 'Work') { typeColor = const Color.fromARGB(255, 103, 200, 225); }
     return Container(
       color: Colors.white,
-      // margin: const EdgeInsets.only(right: 10),
+      margin: const EdgeInsets.fromLTRB(15, 15, 15, 0),
       padding: const EdgeInsets.all(15),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
