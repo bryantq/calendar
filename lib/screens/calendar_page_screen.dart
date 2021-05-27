@@ -1,6 +1,8 @@
+import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:googleapis/calendar/v3.dart' as googleAPI;
 import 'package:intl/intl.dart';
 import 'dart:async';
 import 'dart:convert' show json;
@@ -18,7 +20,8 @@ GoogleSignIn _googleSignIn = GoogleSignIn(
   // clientId: '9845738125-ktgh7e3bfq20a5oe2pfohue0lt56g5us.apps.googleusercontent.com',
   scopes: <String>[
     'email',
-    'https://www.googleapis.com/auth/calendar.readonly',
+    // from https://github.com/google/googleapis.dart/blob/master/generated/googleapis/lib/calendar/v3.dart
+    googleAPI.CalendarApi.calendarReadonlyScope
   ],
 );
 GoogleSignInAccount? _currentUser;
@@ -31,6 +34,8 @@ class CalendarPageScreen extends StatefulWidget {
 class _CalendarPageState extends State<CalendarPageScreen> {
   bool _alertWidgetVisible = true;
   DateTime _focusedDay = DateTime.now();
+  LinkedHashMap<String, List<Event>> _calendarEvents =
+      LinkedHashMap<String, List<Event>>();
   CalendarFormat _calendarFormat = CalendarFormat.week;
 
   DateTime? _selectedDay;
@@ -46,14 +51,14 @@ class _CalendarPageState extends State<CalendarPageScreen> {
   // Using a `LinkedHashSet` is recommended due to equality comparison override
   String _contactText = '';
 
-  Future<void> _handleGetContact(GoogleSignInAccount user) async {
+  Future<void> _getCalendarEvents(GoogleSignInAccount user) async {
     setState(() {
-      _contactText = 'Loading contact info...';
+      _contactText = 'Loading calendar info...';
     });
     final response = await http.get(
       Uri.parse(
           'https://www.googleapis.com/calendar/v3/calendars/primary/events'
-          '?timeMin=2021-05-19T00:00:00-07:00&maxResults=3&singleEvents=true&orderBy=startTime'),
+          '?timeMin=2021-05-19T00:00:00-07:00&singleEvents=true&orderBy=startTime'),
       headers: await user.authHeaders,
     );
     if (response.statusCode != 200) {
@@ -64,13 +69,31 @@ class _CalendarPageState extends State<CalendarPageScreen> {
       print('Calendar API ${response.statusCode} response: ${response.body}');
       return;
     }
-    final Map<String, dynamic> data = json.decode(response.body);
-    List<dynamic> calevents = data['items'];
-    calevents.forEach((calevents) {
-      (calevents as Map<String, dynamic>).forEach((key, value) {
-        print('$key : $value');
-      });
+    var data = googleAPI.Events.fromJson(json.decode(response.body));
+
+    data.items!.forEach((element) {
+      if (element.start!.dateTime != null) {
+        var currentDate = DateTime.now();
+        var date = DateFormat('yyyy-MM-dd')
+            .format(element.start!.dateTime ?? currentDate);
+        var time = DateFormat('H:mm aa')
+            .format(element.start!.dateTime ?? currentDate);
+        var event = Event(
+            eventDate: date,
+            eventTime: time,
+            eventTitle: element.summary ?? 'No Title',
+            eventDesc: element.description ?? '',
+            eventLocation: element.location ?? '',
+            eventType: 'Work');
+
+        if (_calendarEvents[date] == null) {
+          _calendarEvents[date] = [event];
+        } else {
+          _calendarEvents[date]!.add(event);
+        }
+      }
     });
+    print(_calendarEvents);
   }
 
   Future<void> _handleSignIn() async {
@@ -86,12 +109,17 @@ class _CalendarPageState extends State<CalendarPageScreen> {
   @override
   void dispose() {
     _selectedEvents.dispose();
+    if (_googleSignIn.currentUser != null) {
+      _googleSignIn.disconnect();
+      _googleSignIn.signOut();
+    }
     super.dispose();
   }
 
   List<Event> _getEventsForDay(DateTime day) {
     // Implementation example
-    return kEvents[day] ?? [];
+    var date = DateFormat('yyyy-MM-dd').format(day);
+    return _calendarEvents[date] ?? [];
   }
 
   List<Event> _getEventsForDays(Set<DateTime> days) {
@@ -116,13 +144,14 @@ class _CalendarPageState extends State<CalendarPageScreen> {
   @override
   void initState() {
     Timer.periodic(const Duration(seconds: 1), (Timer t) => _getTime());
-    _googleSignIn.onCurrentUserChanged.listen((GoogleSignInAccount? account) {
+    _googleSignIn.onCurrentUserChanged
+        .listen((GoogleSignInAccount? account) async {
       setState(() {
         _selectedDay = _focusedDay;
         _currentUser = account;
       });
       if (_currentUser != null) {
-        _handleGetContact(_currentUser!);
+        await _getCalendarEvents(_currentUser!);
       }
     });
     _googleSignIn.signInSilently();
@@ -269,7 +298,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
                     ),
                     color: Colors.black38,
                     tooltip: 'Refresh',
-                    onPressed: () => _handleGetContact(user),
+                    onPressed: () => _getCalendarEvents(user),
                   )),
               Container(
                 margin: const EdgeInsets.symmetric(horizontal: 25, vertical: 0),
