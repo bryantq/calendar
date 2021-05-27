@@ -14,8 +14,13 @@ class Event {
   final String eventLocation;
   final String eventType;
 
-  const Event({required this.eventDate, required this.eventTime, required this.eventTitle, required this.eventDesc, required this.eventLocation, required this.eventType});
-
+  const Event(
+      {required this.eventDate,
+      required this.eventTime,
+      required this.eventTitle,
+      required this.eventDesc,
+      required this.eventLocation,
+      required this.eventType});
 }
 
 /// Example events.
@@ -29,14 +34,15 @@ final kEvents = LinkedHashMap<DateTime, List<Event>>(
 final _kEventSource = Map.fromIterable(List.generate(50, (index) => index),
     key: (item) => DateTime.utc(2020, 10, item * 5),
     value: (item) => List.generate(
-        item % 4 + 1, (index) => Event(
-        eventDate: '',
-        eventTime: '10:50AM - 12:30AM',
-        eventTitle: 'Event $item | ${index + 1}',
-        eventLocation: 'W Sunset Blvd, Los Angeles, CA 89102',
-        eventType: 'Work',
-        eventDesc: 'Blah',
-    )))
+        item % 4 + 1,
+        (index) => Event(
+              eventDate: '',
+              eventTime: '10:50AM - 12:30AM',
+              eventTitle: 'Event $item | ${index + 1}',
+              eventLocation: 'W Sunset Blvd, Los Angeles, CA 89102',
+              eventType: 'Work',
+              eventDesc: 'Blah',
+            )))
   ..addAll({
     DateTime.now(): [
       Event(
