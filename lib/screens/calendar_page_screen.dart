@@ -72,18 +72,26 @@ class _CalendarPageState extends State<CalendarPageScreen> {
     var data = googleAPI.Events.fromJson(json.decode(response.body));
 
     data.items!.forEach((element) {
+
       if (element.start!.dateTime != null) {
         var currentDate = DateTime.now();
+
+        var localStartDate = element.start!.dateTime?.toLocal();
+        var localEndDate = element.end!.dateTime?.toLocal();
+
         var date = DateFormat('yyyy-MM-dd')
-            .format(element.start!.dateTime ?? currentDate);
-        var time = DateFormat('H:mm aa')
-            .format(element.start!.dateTime ?? currentDate);
+            .format(localStartDate ?? currentDate);
+        var startTime = DateFormat('H:mm aa')
+            .format(localStartDate ?? currentDate);
+        var endTime = DateFormat('H:mm aa')
+            .format(localEndDate ?? currentDate);
+        var time = '${startTime} - ${endTime}';
         var event = Event(
             eventDate: date,
             eventTime: time,
             eventTitle: element.summary ?? 'No Title',
-            eventDesc: element.description ?? '',
-            eventLocation: element.location ?? '',
+            eventDesc: Bidi.stripHtmlIfNeeded(element.description ?? ''),
+            eventLocation: Bidi.stripHtmlIfNeeded(element.location ?? ''),
             eventType: 'Work');
 
         if (_calendarEvents[date] == null) {
@@ -93,6 +101,7 @@ class _CalendarPageState extends State<CalendarPageScreen> {
         }
       }
     });
+    _selectedEvents.value = _getEventsForDay(_focusedDay);
   }
 
   Future<void> _handleSignIn() async {

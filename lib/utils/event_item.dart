@@ -63,7 +63,8 @@ class _eventItemState extends State<eventItem> {
           const SizedBox(height: 5),
            Text(
             widget.eventLocation,
-            style: const TextStyle(
+             overflow: TextOverflow.ellipsis,
+             style: const TextStyle(
               fontSize: 18,
               letterSpacing: -0.3,
               fontFamily: 'Inter-Light',
@@ -71,13 +72,17 @@ class _eventItemState extends State<eventItem> {
             ),
           ),
           const SizedBox(height: 5),
-           Text(
-            widget.eventDesc,
-            style: const TextStyle(
-              fontSize: 18,
-              letterSpacing: -0.3,
-              fontFamily: 'Inter-Light',
-              color: Color.fromARGB(255, 155, 165, 170),
+          Container(
+            child:Text(
+              widget.eventDesc,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+              style: const TextStyle(
+                fontSize: 18,
+                letterSpacing: -0.3,
+                fontFamily: 'Inter-Light',
+                color: Color.fromARGB(150, 155, 165, 170),
+              ),
             ),
           ),
           const SizedBox(height: 10),
